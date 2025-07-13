@@ -1,0 +1,19 @@
+# Logs
+logs
+*.log
+
+# Node modules
+node_modules/
+
+# Ignore all env files globally
+.env*
+*.env
+
+# Build output
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/
+.idea
+.DS_Store
