@@ -16,6 +16,13 @@ const placeOrder = async (req,res) => {
         
         const { userId, items, amount, address} = req.body;
 
+        if (!Array.isArray(items) || items.length === 0) {
+            return res.json({ success: false, message: 'Cart is empty' })
+        }
+        if (!amount || amount <= 0) {
+            return res.json({ success: false, message: 'Invalid order amount' })
+        }
+
         const orderData = {
             userId,
             items,
@@ -47,6 +54,13 @@ const placeOrderStripe = async (req,res) => {
         
         const { userId, items, amount, address} = req.body
         const { origin } = req.headers;
+
+        if (!Array.isArray(items) || items.length === 0) {
+            return res.json({ success: false, message: 'Cart is empty' })
+        }
+        if (!amount || amount <= 0) {
+            return res.json({ success: false, message: 'Invalid order amount' })
+        }
 
         const orderData = {
             userId,
@@ -156,8 +170,28 @@ const updateStatus = async (req,res) => {
         
         const { orderId, status } = req.body
 
-        await orderModel.findByIdAndUpdate(orderId, { status })
-        res.json({success:true,message:'Status Updated'})
+        const updatedOrder = await orderModel.findByIdAndUpdate(orderId, { status }, { new: true })
+        
+        // Notify via SSE
+        if (updatedOrder) {
+            // Prepare notification payload
+            const payload = {
+                type: 'ORDER_STATUS',
+                orderId: updatedOrder._id,
+                userId: updatedOrder.user, // ObjectId or string
+                status: updatedOrder.status,
+                message: `Your order #${updatedOrder._id} status is now ${updatedOrder.status}`,
+                timestamp: new Date(),
+            };
+
+            // Broadcast to all connected clients (or filter by userId)
+            // If you registered clients with userId, pass a filterFn: client => client.userId === payload.userId
+            if (typeof global.sendSSE === 'function') {
+                global.sendSSE(payload /*, client => client.userId === String(payload.userId) */);
+            }
+        }
+
+        res.json({success:true,message:'Status Updated', order: updatedOrder})
 
     } catch (error) {
         console.log(error)

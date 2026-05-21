@@ -47,6 +47,11 @@ const PlaceOrder = () => {
                 }
             }
 
+            if (orderItems.length === 0 || getCartAmount() === 0) {
+                toast.error('Your cart is empty')
+                return;
+            }
+
             let orderData = {
                 address: formData,
                 items: orderItems,

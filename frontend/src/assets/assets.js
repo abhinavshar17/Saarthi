@@ -73,10 +73,11 @@ import contact_img from './contact_img.png'
 import razorpay_logo from './razorpay_logo.png'
 import stripe_logo from './stripe_logo.png'
 import cross_icon from './cross_icon.png'
-
+import hero_video from './hero.mp4'
 export const assets = {
     logo,
     hero_img,
+     
     cart_icon,
     dropdown_icon,
     exchange_icon,
@@ -96,6 +97,78 @@ export const assets = {
 }
 
 export const products = [
+    {
+        _id: "saarthi_001",
+        name: "Handcrafted Zardozi Silk Saree",
+        description: "A breathtaking deep maroon silk saree featuring intricate gold Zardozi embroidery, handcrafted by master artisans in Varanasi. Perfect for elegant evening wear.",
+        price: 25000,
+        image: ["/product_saree.png"],
+        category: "Women",
+        subCategory: "Ethnic",
+        sizes: ["Free Size"],
+        date: 1716634345450,
+        bestseller: true
+    },
+    {
+        _id: "saarthi_002",
+        name: "Ivory & Gold Bridal Lehenga",
+        description: "A stunning ivory lehenga with rich gold mirror work and thread embroidery, inspired by the heritage of Kutch. A masterpiece of traditional craftsmanship.",
+        price: 45000,
+        image: ["/product_lehenga.png"],
+        category: "Women",
+        subCategory: "Ethnic",
+        sizes: ["S", "M", "L", "Custom"],
+        date: 1716634345449,
+        bestseller: true
+    },
+    {
+        _id: "saarthi_003",
+        name: "Midnight Blue Zari Anarkali",
+        description: "A luxurious Anarkali suit featuring heavy silver zari embroidery on midnight blue fabric. A regal choice for festive occasions.",
+        price: 32000,
+        image: ["/product_anarkali.png"],
+        category: "Women",
+        subCategory: "Ethnic",
+        sizes: ["S", "M", "L"],
+        date: 1716634345448,
+        bestseller: true
+    },
+    {
+        _id: "saarthi_004",
+        name: "Emerald Green Silk Kurta Set",
+        description: "A beautiful silk kurta set in deep emerald green, adorned with intricate gold floral embroidery. Comfort meets supreme elegance.",
+        price: 18500,
+        image: ["/product_kurta.png"],
+        category: "Women",
+        subCategory: "Ethnic",
+        sizes: ["M", "L", "XL"],
+        date: 1716634345447,
+        bestseller: true
+    },
+    {
+        _id: "saarthi_005",
+        name: "Ivory & Gold Men's Sherwani",
+        description: "A classic ivory silk sherwani with exquisite gold threadwork. Handcrafted for the modern groom who appreciates tradition.",
+        price: 55000,
+        image: ["/product_sherwani.png"],
+        category: "Men",
+        subCategory: "Ethnic",
+        sizes: ["M", "L", "XL"],
+        date: 1716634345446,
+        bestseller: true
+    },
+    {
+        _id: "saarthi_006",
+        name: "Handwoven Banarasi Dupatta",
+        description: "A vibrant handwoven silk dupatta featuring rich Banarasi zari work. The perfect statement accessory for any traditional outfit.",
+        price: 8500,
+        image: ["/product_dupatta.png"],
+        category: "Women",
+        subCategory: "Accessories",
+        sizes: ["Free Size"],
+        date: 1716634345445,
+        bestseller: true
+    },
     {
         _id: "aaaaa",
         name: "Women Round Neck Cotton Top",

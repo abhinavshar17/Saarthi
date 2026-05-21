@@ -3,6 +3,7 @@ import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets';
 import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
+import { motion } from 'framer-motion'
 
 const Collection = () => {
 
@@ -82,42 +83,76 @@ const Collection = () => {
     sortProduct();
   },[sortType])
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: 20 },
+    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  }
+
   return (
-    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
+    <div className='flex flex-col sm:flex-row gap-1 sm:gap-14 pt-16 border-t border-saarthi-brown/20 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] max-w-[1600px] mx-auto'>
       
       {/* Filter Options */}
-      <div className='min-w-60'>
-        <p onClick={()=>setShowFilter(!showFilter)} className='my-2 text-xl flex items-center cursor-pointer gap-2'>FILTERS
-          <img className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`} src={assets.dropdown_icon} alt="" />
+      <div className='min-w-64'>
+        <p onClick={()=>setShowFilter(!showFilter)} className='my-2 text-2xl flex items-center justify-between cursor-pointer font-display text-saarthi-dark tracking-widest uppercase border-b border-saarthi-brown/20 pb-4'>
+          Filters
+          <img className={`h-4 sm:hidden transition-transform duration-300 ${showFilter ? 'rotate-180' : ''}`} src={assets.dropdown_icon} alt="" />
         </p>
+        
         {/* Category Filter */}
-        <div className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? '' :'hidden'} sm:block`}>
-          <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
-          <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
-            <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Men'} onChange={toggleCategory}/> Men
-            </p>
-            <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Women'} onChange={toggleCategory}/> Women
-            </p>
-            <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Kids'} onChange={toggleCategory}/> kids
-            </p>
+        <div className={`py-6 border-b border-saarthi-brown/10 ${showFilter ? '' :'hidden'} sm:block`}>
+          <p className='mb-6 text-sm font-sans tracking-[0.2em] text-saarthi-maroon uppercase font-medium'>Category</p>
+          <div className='flex flex-col gap-4 text-sm font-light text-saarthi-dark tracking-wide'>
+            <label className='flex gap-4 items-center cursor-pointer hover:text-saarthi-maroon transition-colors group'>
+              <div className='w-4 h-4 border border-saarthi-brown/40 flex items-center justify-center group-hover:border-saarthi-maroon transition-colors'>
+                {category.includes('Men') && <div className='w-2 h-2 bg-saarthi-maroon'></div>}
+              </div>
+              <input className='hidden' type="checkbox" value={'Men'} onChange={toggleCategory}/> Men
+            </label>
+            <label className='flex gap-4 items-center cursor-pointer hover:text-saarthi-maroon transition-colors group'>
+              <div className='w-4 h-4 border border-saarthi-brown/40 flex items-center justify-center group-hover:border-saarthi-maroon transition-colors'>
+                {category.includes('Women') && <div className='w-2 h-2 bg-saarthi-maroon'></div>}
+              </div>
+              <input className='hidden' type="checkbox" value={'Women'} onChange={toggleCategory}/> Women
+            </label>
+            <label className='flex gap-4 items-center cursor-pointer hover:text-saarthi-maroon transition-colors group'>
+              <div className='w-4 h-4 border border-saarthi-brown/40 flex items-center justify-center group-hover:border-saarthi-maroon transition-colors'>
+                {category.includes('Kids') && <div className='w-2 h-2 bg-saarthi-maroon'></div>}
+              </div>
+              <input className='hidden' type="checkbox" value={'Kids'} onChange={toggleCategory}/> Kids
+            </label>
           </div>
         </div>
+        
         {/* SubCategory Filter */}
-        <div className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' :'hidden'} sm:block`}>
-          <p className='mb-3 text-sm font-medium'>TYPE</p>
-          <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
-            <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Topwear'} onChange={toggleSubCategory}/> Topwear
-            </p>
-            <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Bottomwear'} onChange={toggleSubCategory}/> Bottomwear
-            </p>
-            <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Winterwear'} onChange={toggleSubCategory}/> Winterwear
-            </p>
+        <div className={`py-6 border-b border-saarthi-brown/10 ${showFilter ? '' :'hidden'} sm:block`}>
+          <p className='mb-6 text-sm font-sans tracking-[0.2em] text-saarthi-maroon uppercase font-medium'>Collection Type</p>
+          <div className='flex flex-col gap-4 text-sm font-light text-saarthi-dark tracking-wide'>
+            <label className='flex gap-4 items-center cursor-pointer hover:text-saarthi-maroon transition-colors group'>
+              <div className='w-4 h-4 border border-saarthi-brown/40 flex items-center justify-center group-hover:border-saarthi-maroon transition-colors'>
+                {subCategory.includes('Topwear') && <div className='w-2 h-2 bg-saarthi-maroon'></div>}
+              </div>
+              <input className='hidden' type="checkbox" value={'Topwear'} onChange={toggleSubCategory}/> Topwear
+            </label>
+            <label className='flex gap-4 items-center cursor-pointer hover:text-saarthi-maroon transition-colors group'>
+              <div className='w-4 h-4 border border-saarthi-brown/40 flex items-center justify-center group-hover:border-saarthi-maroon transition-colors'>
+                {subCategory.includes('Bottomwear') && <div className='w-2 h-2 bg-saarthi-maroon'></div>}
+              </div>
+              <input className='hidden' type="checkbox" value={'Bottomwear'} onChange={toggleSubCategory}/> Bottomwear
+            </label>
+            <label className='flex gap-4 items-center cursor-pointer hover:text-saarthi-maroon transition-colors group'>
+              <div className='w-4 h-4 border border-saarthi-brown/40 flex items-center justify-center group-hover:border-saarthi-maroon transition-colors'>
+                {subCategory.includes('Winterwear') && <div className='w-2 h-2 bg-saarthi-maroon'></div>}
+              </div>
+              <input className='hidden' type="checkbox" value={'Winterwear'} onChange={toggleSubCategory}/> Winterwear
+            </label>
           </div>
         </div>
       </div>
@@ -125,24 +160,31 @@ const Collection = () => {
       {/* Right Side */}
       <div className='flex-1'>
 
-        <div className='flex justify-between text-base sm:text-2xl mb-4'>
+        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center text-base sm:text-2xl mb-12 gap-6'>
             <Title text1={'ALL'} text2={'COLLECTIONS'} />
-            {/* Porduct Sort */}
-            <select onChange={(e)=>setSortType(e.target.value)} className='border-2 border-gray-300 text-sm px-2'>
-              <option value="relavent">Sort by: Relavent</option>
+            {/* Product Sort */}
+            <select onChange={(e)=>setSortType(e.target.value)} className='editorial-border bg-saarthi-ivory text-saarthi-dark text-sm px-6 py-3 font-sans tracking-widest uppercase focus:outline-none focus:border-saarthi-maroon transition-colors appearance-none cursor-pointer'>
+              <option value="relavent">Sort by: Relevant</option>
               <option value="low-high">Sort by: Low to High</option>
               <option value="high-low">Sort by: High to Low</option>
             </select>
         </div>
 
         {/* Map Products */}
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className='grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-12'
+        >
           {
             filterProducts.map((item,index)=>(
-              <ProductItem key={index} name={item.name} id={item._id} price={item.price} image={item.image} />
+              <motion.div key={index} variants={itemVariants} className="h-full">
+                <ProductItem name={item.name} id={item._id} price={item.price} image={item.image} />
+              </motion.div>
             ))
           }
-        </div>
+        </motion.div>
       </div>
 
     </div>

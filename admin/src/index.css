@@ -1,19 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Prata&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: Outfit;
+@layer base {
+  body {
+    @apply text-saarthi-dark bg-saarthi-cream font-sans antialiased;
+  }
 }
 
-select,input,textarea{
-    border: 1px solid #c2c2c2;
-    outline-color: #C586A5;
-    border-radius: 4px;
+* {
+    font-family: 'Outfit', sans-serif;
 }
 
-.active{
-    background-color: #ffebf5;
-    border-color: #C586A5;
+h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Playfair Display', serif;
+}
+
+select, input, textarea {
+    @apply border border-saarthi-brown/20 bg-saarthi-ivory text-saarthi-dark font-light;
+    border-radius: 2px;
+}
+
+select:focus, input:focus, textarea:focus {
+    @apply border-saarthi-gold outline-none ring-1 ring-saarthi-gold/50 transition-shadow;
+}
+
+.active {
+    @apply bg-saarthi-maroon/5 border-r-4 border-saarthi-maroon text-saarthi-maroon;
 }
