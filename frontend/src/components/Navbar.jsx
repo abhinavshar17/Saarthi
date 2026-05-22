@@ -60,7 +60,7 @@ const Navbar = () => {
                 <p>Contact</p>
                 <hr className='w-0 group-hover:w-full border-none h-[1px] bg-saarthi-maroon transition-all duration-300' />
             </NavLink>
-            <a href='http://localhost:5174' target='_blank' rel='noopener noreferrer' className='group flex flex-col items-center gap-1 hover:text-saarthi-maroon transition-colors'>
+            <a href='https://boisterous-mooncake-7c2ac4.netlify.app' target='_blank' rel='noopener noreferrer' className='group flex flex-col items-center gap-1 hover:text-saarthi-maroon transition-colors'>
                 <p>Admin</p>
                 <hr className='w-0 group-hover:w-full border-none h-[1px] bg-saarthi-maroon transition-all duration-300' />
             </a>
