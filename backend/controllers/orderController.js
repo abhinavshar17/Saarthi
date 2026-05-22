@@ -1,5 +1,7 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
+import createTransporter from '../config/email.js'
+import jwt from 'jsonwebtoken'
 import Stripe from 'stripe'
 
 // global variables
@@ -37,6 +39,21 @@ const placeOrder = async (req,res) => {
         await newOrder.save()
 
         await userModel.findByIdAndUpdate(userId,{cartData:{}})
+
+        // send email notification to user
+        try {
+            const user = await userModel.findById(userId)
+            if (user && user.email) {
+                const transporter = await createTransporter()
+                const mailOptions = {
+                    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+                    to: user.email,
+                    subject: 'Order Placed - Saarthi',
+                    text: `Hi ${user.name || ''},\n\nYour order (${newOrder._id}) has been placed successfully. We will notify you when its status changes.\n\nThank you for shopping with us!`,
+                }
+                transporter.sendMail(mailOptions).catch(err=>console.log('Mail error',err))
+            }
+        } catch (err) { console.log('notify error',err) }
 
         res.json({success:true,message:"Order Placed"})
 
@@ -121,6 +138,21 @@ const verifyStripe = async (req,res) => {
         if (success === "true") {
             await orderModel.findByIdAndUpdate(orderId, {payment:true});
             await userModel.findByIdAndUpdate(userId, {cartData: {}})
+            // notify user by email
+            try {
+                const user = await userModel.findById(userId)
+                if (user && user.email) {
+                    const transporter = await createTransporter()
+                    const mailOptions = {
+                        from: process.env.SMTP_FROM || process.env.SMTP_USER,
+                        to: user.email,
+                        subject: 'Payment Received - Saarthi',
+                        text: `Hi ${user.name || ''},\n\nWe have received payment for your order (${orderId}). Thank you!\n\nRegards, Saarthi`,
+                    }
+                    transporter.sendMail(mailOptions).catch(err=>console.log('Mail error',err))
+                }
+            } catch (err) { console.log('notify error',err) }
+
             res.json({success: true});
         } else {
             await orderModel.findByIdAndDelete(orderId)
@@ -189,6 +221,21 @@ const updateStatus = async (req,res) => {
             if (typeof global.sendSSE === 'function') {
                 global.sendSSE(payload /*, client => client.userId === String(payload.userId) */);
             }
+            // send email about status change
+            try {
+                const user = await userModel.findById(updatedOrder.userId || updatedOrder.user || updatedOrder.user)
+                const userIdToUse = user?._id
+                if (user && user.email) {
+                    const transporter = await createTransporter()
+                    const mailOptions = {
+                        from: process.env.SMTP_FROM || process.env.SMTP_USER,
+                        to: user.email,
+                        subject: `Order ${updatedOrder._id} status updated - Saarthi`,
+                        text: `Hi ${user.name || ''},\n\nYour order (${updatedOrder._id}) status is now: ${updatedOrder.status}.\n\nThank you for shopping with us!`,
+                    }
+                    transporter.sendMail(mailOptions).catch(err=>console.log('Mail error',err))
+                }
+            } catch (err) { console.log('notify email error',err) }
         }
 
         res.json({success:true,message:'Status Updated', order: updatedOrder})

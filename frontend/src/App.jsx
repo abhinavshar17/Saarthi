@@ -20,7 +20,6 @@ import Verify from './pages/Verify'
 import Profile from './pages/Profile'
 import { NotificationProvider } from './context/NotificationContext'
 
-import Chatbot from './components/Chatbot' // <- use components path; file exists there
 import SplashScreen from './components/SplashScreen'
 import Lenis from 'lenis'
 import { useEffect } from 'react'
@@ -78,8 +77,7 @@ const App = () => {
 
         <Footer />
 
-        {/* ⭐ Floating Chatbot Icon */}
-        <Chatbot />
+
 
       </div>
     </NotificationProvider>
